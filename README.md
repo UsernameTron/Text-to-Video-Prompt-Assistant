@@ -71,14 +71,42 @@ npm test -- --watch
 npm test -- --coverage
 ```
 
+## Repository Structure
+
+This project is organized as a standard Next.js application:
+
+```
+/
+├── public/            # Static assets and resources
+├── src/
+│   ├── components/    # React components
+│   ├── pages/         # Next.js pages
+│   ├── styles/        # CSS and styling
+│   └── utils/         # Utility functions
+├── netlify/
+│   └── functions/     # Serverless functions
+└── scripts/          # Build and deployment scripts
+```
+
+### Important Note on File Structure
+
+This repository previously contained concatenated files like:
+- `utility-functions.js`
+- `main-app-files.js`
+- `components.txt`
+
+These files should **not** be used in development or deployment as they cause module conflicts. Instead, use the individual files in their proper directories.
+
 ## Deployment
 
 This project is configured for easy deployment to Netlify:
 
-1. Push your code to a GitHub repository
-2. Connect the repository to Netlify
-3. Configure environment variables in Netlify dashboard
-4. Netlify will automatically deploy your application
+1. Run `npm run clean` to remove any problematic concatenated files
+2. Run `npm run predeploy` to verify deployment readiness
+3. Push your code to a GitHub repository
+4. Connect the repository to Netlify
+5. Configure environment variables in Netlify dashboard
+6. Netlify will automatically deploy your application
 
 For detailed deployment instructions, see the [deployment guide](deployment-guide.txt).
 

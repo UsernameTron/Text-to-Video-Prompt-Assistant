@@ -4,12 +4,14 @@
   "private": true,
   "scripts": {
     "prebuild": "node -e \"if(!require('fs').existsSync('node_modules/next')) { console.log('Installing Next.js...'); require('child_process').execSync('npm install next'); }\"",
+    "predeploy": "node scripts/verify-deployment.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "clean": "rm -f utility-functions.js main-app-files.js components.txt page-components.txt styles.txt"
   },
   "dependencies": {
     "next": "^13.4.0",

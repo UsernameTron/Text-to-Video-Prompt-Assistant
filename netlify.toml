@@ -1,5 +1,5 @@
 [build]
-  command = "npm install && npx eslint --fix . && npm run build"
+  command = "rm -f utility-functions.js main-app-files.js && npm install && npx eslint --fix . && npm run build"
   publish = ".next"
   functions = "netlify/functions"
 
