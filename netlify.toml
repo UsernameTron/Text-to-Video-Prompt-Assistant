@@ -1,0 +1,16 @@
+[build]
+  command = "npm install && npx next build"
+  publish = ".next"
+  functions = "netlify/functions"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  NODE_VERSION = "16"
+  NPM_FLAGS = "--prefer-offline --no-audit --legacy-peer-deps"
+
+[dev]
+  command = "npm run dev"
+  port = 8888
+  publish = ".next"
