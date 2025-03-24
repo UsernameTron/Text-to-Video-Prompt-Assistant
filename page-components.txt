@@ -1,0 +1,366 @@
+// src/pages/index.js
+import React from 'react';
+import Head from 'next/head';
+import Link from 'next/link';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+
+export default function Home() {
+  return (
+    <div className="page home-page">
+      <Head>
+        <title>Text-to-Video Prompt Optimizer</title>
+        <meta name="description" content="Enhance your text-to-video prompts with cinematic elements" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <Header />
+
+      <main className="container">
+        <section className="hero">
+          <div className="hero-content">
+            <h1>Transform Your Video Prompts</h1>
+            <p className="hero-subtitle">
+              Enhance basic text descriptions with professional cinematic elements for better text-to-video generation results
+            </p>
+            <div className="hero-buttons">
+              <Link href="/enhancer">
+                <a className="btn btn-primary">Get Started</a>
+              </Link>
+              <Link href="/examples">
+                <a className="btn btn-secondary">View Examples</a>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="features">
+          <h2>What You Can Do</h2>
+          <div className="features-grid">
+            <div className="feature-card">
+              <h3>Enhance Prompts</h3>
+              <p>Add cinematic elements like shot types, lighting, camera movements, and mood descriptors to your basic text prompts.</p>
+            </div>
+            <div className="feature-card">
+              <h3>Apply Styles</h3>
+              <p>Instantly transform your prompts with predefined styles like cinematic, documentary, noir, and more.</p>
+            </div>
+            <div className="feature-card">
+              <h3>Learn Techniques</h3>
+              <p>Discover professional filmmaking terminology and techniques to improve your video generation results.</p>
+            </div>
+            <div className="feature-card">
+              <h3>Save & Share</h3>
+              <p>Save your enhanced prompts and share them with others for collaboration or inspiration.</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="how-it-works">
+          <h2>How It Works</h2>
+          <div className="steps">
+            <div className="step">
+              <div className="step-number">1</div>
+              <h3>Enter Your Prompt</h3>
+              <p>Start with a simple text description of the scene you want to generate.</p>
+            </div>
+            <div className="step">
+              <div className="step-number">2</div>
+              <h3>Choose Categories</h3>
+              <p>Select which types of cinematic elements you want to include.</p>
+            </div>
+            <div className="step">
+              <div className="step-number">3</div>
+              <h3>Select Modifiers</h3>
+              <p>Pick specific modifiers from each category to enhance your prompt.</p>
+            </div>
+            <div className="step">
+              <div className="step-number">4</div>
+              <h3>Get Enhanced Prompt</h3>
+              <p>Receive your complete enhanced prompt ready for text-to-video systems.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
+
+// src/pages/enhancer.js
+import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import PromptInput from '../components/PromptInput';
+import CategorySelector from '../components/CategorySelector';
+import ModifierSelector from '../components/ModifierSelector';
+import EnhancedPrompt from '../components/EnhancedPrompt';
+import StylePresets from '../components/StylePresets';
+import resourceLoader from '../utils/resourceLoader';
+import promptEnhancer from '../utils/promptEnhancer';
+
+export default function Enhancer() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [basicPrompt, setBasicPrompt] = useState('');
+  const [suggestions, setSuggestions] = useState({});
+  const [selectedModifiers, setSelectedModifiers] = useState({});
+  const [enhancedPrompt, setEnhancedPrompt] = useState('');
+
+  useEffect(() => {
+    const loadResources = async () => {
+      await resourceLoader.loadAllResources();
+      setCategories(resourceLoader.getAllCategories());
+      setIsLoading(false);
+    };
+
+    loadResources();
+  }, []);
+
+  const handlePromptSubmit = (prompt) => {
+    setBasicPrompt(prompt);
+    
+    if (selectedCategories.length > 0) {
+      const newSuggestions = promptEnhancer.suggestEnhancements(prompt, selectedCategories);
+      setSuggestions(newSuggestions);
+    } else {
+      // Use default categories if none selected
+      const defaultCategories = [
+        'shot_types', 'camera_movements', 'lighting', 
+        'emotional_tones', 'time_of_day', 'composition_rules'
+      ];
+      setSelectedCategories(defaultCategories);
+      const newSuggestions = promptEnhancer.suggestEnhancements(prompt, defaultCategories);
+      setSuggestions(newSuggestions);
+    }
+  };
+
+  const handleCategoriesChange = (categories) => {
+    setSelectedCategories(categories);
+    if (basicPrompt) {
+      const newSuggestions = promptEnhancer.suggestEnhancements(basicPrompt, categories);
+      setSuggestions(newSuggestions);
+    }
+  };
+
+  const handleModifiersChange = (modifiers) => {
+    setSelectedModifiers(modifiers);
+    if (basicPrompt) {
+      const newEnhancedPrompt = promptEnhancer.formatEnhancedPrompt(basicPrompt, modifiers);
+      setEnhancedPrompt(newEnhancedPrompt);
+    }
+  };
+
+  const handleStyleSelect = (styleName) => {
+    if (basicPrompt) {
+      const newEnhancedPrompt = promptEnhancer.getStyledPrompt(basicPrompt, styleName);
+      setEnhancedPrompt(newEnhancedPrompt);
+    }
+  };
+
+  return (
+    <div className="page enhancer-page">
+      <Head>
+        <title>Prompt Enhancer | Text-to-Video Prompt Optimizer</title>
+        <meta name="description" content="Enhance your text-to-video prompts with cinematic elements" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <Header />
+
+      <main className="container">
+        <h1>Prompt Enhancer</h1>
+
+        {isLoading ? (
+          <div className="loading">Loading resources...</div>
+        ) : (
+          <>
+            <div className="enhancer-grid">
+              <div className="enhancer-input">
+                <PromptInput onSubmit={handlePromptSubmit} />
+                <CategorySelector 
+                  categories={categories} 
+                  selectedCategories={selectedCategories} 
+                  onChange={handleCategoriesChange} 
+                />
+              </div>
+
+              <div className="enhancer-output">
+                {Object.keys(suggestions).length > 0 && (
+                  <ModifierSelector 
+                    suggestions={suggestions} 
+                    onModifiersChange={handleModifiersChange} 
+                  />
+                )}
+                
+                <EnhancedPrompt enhancedPrompt={enhancedPrompt} />
+              </div>
+            </div>
+
+            <div className="style-section">
+              <StylePresets onSelectStyle={handleStyleSelect} />
+            </div>
+          </>
+        )}
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
+
+// src/pages/examples.js
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import ExampleShowcase from '../components/ExampleShowcase';
+import resourceLoader from '../utils/resourceLoader';
+
+export default function Examples() {
+  const [examples, setExamples] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const loadExamples = async () => {
+      await resourceLoader.loadAllResources();
+      setExamples(resourceLoader.getExamples());
+      setIsLoading(false);
+    };
+
+    loadExamples();
+  }, []);
+
+  const handleUseExample = (example) => {
+    router.push({
+      pathname: '/enhancer',
+      query: { prompt: example.basic }
+    });
+  };
+
+  return (
+    <div className="page examples-page">
+      <Head>
+        <title>Examples | Text-to-Video Prompt Optimizer</title>
+        <meta name="description" content="Example prompts for text-to-video generation" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <Header />
+
+      <main className="container">
+        <h1>Example Prompts</h1>
+        
+        {isLoading ? (
+          <div className="loading">Loading examples...</div>
+        ) : (
+          <ExampleShowcase examples={examples} onUseExample={handleUseExample} />
+        )}
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
+
+// src/pages/docs.js
+import React from 'react';
+import Head from 'next/head';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import Documentation from '../components/Documentation';
+
+export default function Docs() {
+  return (
+    <div className="page docs-page">
+      <Head>
+        <title>Documentation | Text-to-Video Prompt Optimizer</title>
+        <meta name="description" content="Documentation for the Text-to-Video Prompt Optimizer" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <Header />
+
+      <main className="container">
+        <Documentation />
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
+
+// src/pages/about.js
+import React from 'react';
+import Head from 'next/head';
+import Link from 'next/link';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+
+export default function About() {
+  return (
+    <div className="page about-page">
+      <Head>
+        <title>About | Text-to-Video Prompt Optimizer</title>
+        <meta name="description" content="About the Text-to-Video Prompt Optimizer" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <Header />
+
+      <main className="container">
+        <h1>About the Project</h1>
+        
+        <section className="about-section">
+          <h2>What is the Text-to-Video Prompt Optimizer?</h2>
+          <p>
+            The Text-to-Video Prompt Optimizer is a tool designed to help content creators, 
+            filmmakers, and AI enthusiasts enhance their text prompts for text-to-video 
+            generation systems. By incorporating professional cinematic elements and 
+            film terminology, this tool helps create more detailed and visually compelling 
+            prompts that produce better results in AI video generation.
+          </p>
+        </section>
+        
+        <section className="about-section">
+          <h2>Why Use Cinematic Elements?</h2>
+          <p>
+            Text-to-video AI models benefit enormously from detailed, specific prompts that 
+            incorporate filmmaking terminology. By specifying elements like shot types, 
+            lighting conditions, camera movements, and color grading, you provide the AI with 
+            clearer direction, resulting in more cohesive and professional-looking outputs.
+          </p>
+        </section>
+        
+        <section className="about-section">
+          <h2>Features</h2>
+          <ul>
+            <li>Comprehensive library of film and cinematic terminology</li>
+            <li>Interactive prompt enhancement interface</li>
+            <li>Predefined style presets for quick application</li>
+            <li>Examples and documentation for learning</li>
+            <li>Mobile-friendly design for on-the-go creativity</li>
+          </ul>
+        </section>
+        
+        <section className="about-section">
+          <h2>Get Started</h2>
+          <p>
+            Ready to transform your text-to-video prompts? Head over to our Prompt Enhancer 
+            to start creating detailed, cinematic prompts for your next video generation project.
+          </p>
+          <Link href="/enhancer">
+            <a className="btn btn-primary">Go to Prompt Enhancer</a>
+          </Link>
+        </section>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}

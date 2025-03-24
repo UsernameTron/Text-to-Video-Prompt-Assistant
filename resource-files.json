@@ -1,0 +1,173 @@
+// film_effects.json
+{
+  "shot_types": [
+    "close-up", 
+    "medium shot", 
+    "wide shot", 
+    "extreme close-up", 
+    "long shot", 
+    "over-the-shoulder", 
+    "point-of-view", 
+    "aerial shot", 
+    "Dutch angle", 
+    "low angle", 
+    "high angle", 
+    "bird's eye view"
+  ],
+  "camera_movements": [
+    "static", 
+    "pan", 
+    "tilt", 
+    "zoom", 
+    "dolly", 
+    "tracking", 
+    "steadicam", 
+    "handheld", 
+    "crane", 
+    "drone", 
+    "jib", 
+    "gimbal"
+  ],
+  "lighting": [
+    "high-key", 
+    "low-key", 
+    "Rembrandt", 
+    "butterfly", 
+    "backlight", 
+    "silhouette", 
+    "three-point", 
+    "chiaroscuro", 
+    "practical", 
+    "motivated", 
+    "available light", 
+    "hard light", 
+    "soft light", 
+    "rim light", 
+    "fill light"
+  ],
+  "color_grading": [
+    "technicolor", 
+    "noir", 
+    "sepia", 
+    "monochrome", 
+    "desaturated", 
+    "high contrast", 
+    "low contrast", 
+    "warm", 
+    "cool", 
+    "split-toning", 
+    "bleach bypass", 
+    "cross-processed", 
+    "vibrant", 
+    "pastel"
+  ]
+}
+
+// cinematic_techniques.json
+{
+  "composition_rules": [
+    "rule of thirds", 
+    "leading lines", 
+    "symmetry", 
+    "frame within a frame", 
+    "depth of field", 
+    "foreground interest", 
+    "golden ratio", 
+    "triangle composition", 
+    "negative space", 
+    "balance", 
+    "diagonals", 
+    "patterns and repetition"
+  ],
+  "framing": [
+    "open frame", 
+    "closed frame", 
+    "balanced frame", 
+    "unbalanced frame", 
+    "formal framing", 
+    "informal framing", 
+    "centered framing", 
+    "decentered framing"
+  ],
+  "storytelling": [
+    "mise-en-scène", 
+    "montage", 
+    "juxtaposition", 
+    "parallel action", 
+    "narrative arc", 
+    "foreshadowing", 
+    "flashback", 
+    "flashforward", 
+    "cross-cutting", 
+    "elliptical editing", 
+    "match cut", 
+    "jump cut"
+  ]
+}
+
+// mood_descriptors.json
+{
+  "emotional_tones": [
+    "melancholic", 
+    "euphoric", 
+    "tense", 
+    "serene", 
+    "mysterious", 
+    "hopeful", 
+    "foreboding", 
+    "nostalgic", 
+    "romantic", 
+    "terrifying", 
+    "unsettling", 
+    "joyous", 
+    "contemplative", 
+    "dramatic", 
+    "comedic"
+  ],
+  "time_of_day": [
+    "golden hour", 
+    "blue hour", 
+    "twilight", 
+    "dawn", 
+    "midday", 
+    "sunset", 
+    "midnight", 
+    "dead of night", 
+    "magic hour", 
+    "dusk"
+  ],
+  "environment": [
+    "misty", 
+    "scorching", 
+    "ethereal", 
+    "claustrophobic", 
+    "expansive", 
+    "lush", 
+    "desolate", 
+    "urban", 
+    "rural", 
+    "industrial", 
+    "pristine", 
+    "apocalyptic", 
+    "utopian", 
+    "dystopian", 
+    "futuristic", 
+    "historical"
+  ]
+}
+
+// prompt_examples.json
+[
+  {
+    "basic": "A woman walking through a forest",
+    "enhanced": "A woman in a red dress walking through a misty pine forest at dawn, filmed in a slow tracking shot with shallow depth of field, golden hour lighting, and melancholic atmosphere. Wes Anderson symmetrical composition, 2.35:1 cinematic aspect ratio, soft atmospheric sound design."
+  },
+  {
+    "basic": "A car driving on a coastal road",
+    "enhanced": "A vintage convertible driving along a winding coastal road at sunset, filmed with a drone in a sweeping aerial shot. Vibrant technicolor grading with warm tones, 24fps, dramatic orchestral score rising with the journey, ocean waves crashing against cliffs in the background."
+  },
+  {
+    "basic": "A chef cooking in a kitchen",
+    "enhanced": "A chef preparing a gourmet dish in a professional kitchen, dynamic close-ups of knife skills and flames, overhead shots of colorful ingredients. Shot with a gimbal in smooth movements, high-key lighting emphasizing textures and steam, shallow depth of field focusing on precise hands, 60fps for subtle slow-motion effect on critical moments."
+  }
+]

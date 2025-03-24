@@ -1,0 +1,165 @@
+# Deploying the Text-to-Video Prompt Optimizer to Netlify
+
+This guide provides step-by-step instructions for deploying the Text-to-Video Prompt Optimizer to Netlify, ensuring your application is accessible online.
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+1. A GitHub account
+2. A Netlify account
+3. Node.js installed locally
+4. Git installed locally
+
+## Step 1: Prepare Your Repository
+
+First, create a new GitHub repository for your project:
+
+1. Log in to GitHub and create a new repository named "text-to-video-prompt-optimizer"
+2. Initialize the local project with Git (if not already done):
+   ```bash
+   git init
+   ```
+3. Add all project files to Git:
+   ```bash
+   git add .
+   ```
+4. Commit the files:
+   ```bash
+   git commit -m "Initial commit"
+   ```
+5. Connect your local repository to the GitHub remote repository:
+   ```bash
+   git remote add origin https://github.com/your-username/text-to-video-prompt-optimizer.git
+   git branch -M main
+   git push -u origin main
+   ```
+
+## Step 2: Set Up Netlify
+
+### Deploy via Netlify UI (Easiest Method)
+
+1. Log in to your Netlify account
+2. Click the "New site from Git" button
+3. Choose "GitHub" as your Git provider
+4. Authorize Netlify to access your GitHub account if prompted
+5. Select the "text-to-video-prompt-optimizer" repository
+6. For build settings:
+   - Build command: `npm run build`
+   - Publish directory: `.next`
+7. Click "Deploy site"
+
+### Deploy via Netlify CLI (Alternative Method)
+
+1. Install the Netlify CLI globally:
+   ```bash
+   npm install -g netlify-cli
+   ```
+2. Log in to your Netlify account through the CLI:
+   ```bash
+   netlify login
+   ```
+3. Initialize a new Netlify site:
+   ```bash
+   netlify init
+   ```
+4. Follow the prompts to connect to your GitHub repository and set up deployment settings
+5. Deploy the site:
+   ```bash
+   netlify deploy --prod
+   ```
+
+## Step 3: Configure Build Plugins
+
+Ensure the Next.js plugin is configured correctly:
+
+1. Go to your site's dashboard on Netlify
+2. Navigate to Site settings > Build & deploy > Continuous Deployment
+3. Under "Build settings", check that the "@netlify/plugin-nextjs" plugin is enabled
+4. If not, click "Edit settings" and add it manually
+
+## Step 4: Set Environment Variables (If Needed)
+
+If your application uses environment variables:
+
+1. Go to your site's dashboard on Netlify
+2. Navigate to Site settings > Build & deploy > Environment
+3. Click "Edit variables" and add any necessary environment variables
+4. For example, if you need an API key, add:
+   - Key: `NEXT_PUBLIC_API_KEY`
+   - Value: `your-api-key`
+
+## Step 5: Set Up Serverless Functions
+
+The "save-prompt" serverless function should be automatically detected and deployed based on your `netlify.toml` configuration.
+
+To verify it's working:
+
+1. Go to your site's dashboard on Netlify
+2. Navigate to Functions
+3. You should see the "save-prompt" function listed
+4. Click on the function to see details and logs
+
+## Step 6: Configure Domain Settings (Optional)
+
+To use a custom domain:
+
+1. Go to your site's dashboard on Netlify
+2. Navigate to Site settings > Domain management
+3. Click "Add custom domain"
+4. Follow the prompts to add and verify your domain
+
+## Step 7: Test Your Deployment
+
+After deployment completes:
+
+1. Click the URL provided by Netlify to view your site
+2. Test all major functionality:
+   - Enter a basic prompt
+   - Select categories and modifiers
+   - Generate enhanced prompts
+   - Try different style presets
+   - Test on mobile devices to verify responsiveness
+
+## Troubleshooting Common Issues
+
+### Build Failures
+
+If your build fails:
+
+1. Check the build logs for specific errors
+2. Ensure all dependencies are correctly listed in package.json
+3. Verify that the Next.js plugin is properly configured
+
+### Function Errors
+
+If serverless functions aren't working:
+
+1. Check the function logs in the Netlify dashboard
+2. Ensure the functions directory structure matches what's expected by Netlify
+3. Verify the netlify.toml configuration
+
+### Performance Issues
+
+If your site loads slowly:
+
+1. Check your Image components to ensure they're optimized
+2. Consider implementing code splitting for better performance
+3. Use Netlify's Edge Functions for dynamic content that needs to be closer to users
+
+## Ongoing Maintenance
+
+### Continuous Deployment
+
+Every time you push changes to your GitHub repository's main branch, Netlify will automatically rebuild and deploy your site.
+
+### Monitoring
+
+1. Set up Netlify Analytics to monitor traffic
+2. Configure alerts for failed builds or function errors
+
+## Additional Resources
+
+- [Netlify Docs for Next.js Projects](https://docs.netlify.com/integrations/frameworks/next-js/)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Netlify Functions Documentation](https://docs.netlify.com/functions/overview/)
