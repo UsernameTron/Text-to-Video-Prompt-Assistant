@@ -64,7 +64,7 @@ const PromptInput = ({
             className={`form-control ${error ? 'error-border' : ''}`}
             aria-required="true"
             aria-invalid={!!error}
-            aria-describedby={error ? "prompt-error" : undefined}
+            aria-describedby={error ? 'prompt-error' : undefined}
           />
           {error && (
             <div id="prompt-error" className="error-message" role="alert">

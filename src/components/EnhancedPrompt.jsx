@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import React, { useState } from 'react';
 
 /**
@@ -33,7 +34,6 @@ const EnhancedPrompt = ({ enhancedPrompt }) => {
       <div 
         className="prompt-display" 
         aria-labelledby="enhanced-prompt-heading"
-        tabIndex={0}
         role="region"
       >
         <p>{enhancedPrompt || 'Your enhanced prompt will appear here'}</p>

@@ -14,7 +14,9 @@ export class ResourceLoader {
    * @returns {Promise<boolean>} Whether the resources were loaded successfully
    */
   async loadAllResources() {
-    if (this.isLoaded) return true;
+    if (this.isLoaded) {
+      return true;
+    }
 
     try {
       // Load resource files
@@ -64,12 +66,12 @@ export class ResourceLoader {
           // Provide fallback examples if the file fails to load
           this.examples = [
             { 
-              basic: "A person walking through a forest", 
-              enhanced: "A person walking through a forest, wide shot, natural lighting, golden hour, 4K resolution, shallow depth of field, cinematic" 
+              basic: 'A person walking through a forest', 
+              enhanced: 'A person walking through a forest, wide shot, natural lighting, golden hour, 4K resolution, shallow depth of field, cinematic' 
             },
             {
-              basic: "City skyline at night",
-              enhanced: "City skyline at night, aerial shot, low-key lighting, blue color grading, rule of thirds composition, 24fps, cinematic"
+              basic: 'City skyline at night',
+              enhanced: 'City skyline at night, aerial shot, low-key lighting, blue color grading, rule of thirds composition, 24fps, cinematic'
             }
           ];
         }
@@ -78,12 +80,12 @@ export class ResourceLoader {
         // Provide fallback examples if loading fails
         this.examples = [
           { 
-            basic: "A person walking through a forest", 
-            enhanced: "A person walking through a forest, wide shot, natural lighting, golden hour, 4K resolution, shallow depth of field, cinematic" 
+            basic: 'A person walking through a forest', 
+            enhanced: 'A person walking through a forest, wide shot, natural lighting, golden hour, 4K resolution, shallow depth of field, cinematic' 
           },
           {
-            basic: "City skyline at night",
-            enhanced: "City skyline at night, aerial shot, low-key lighting, blue color grading, rule of thirds composition, 24fps, cinematic"
+            basic: 'City skyline at night',
+            enhanced: 'City skyline at night, aerial shot, low-key lighting, blue color grading, rule of thirds composition, 24fps, cinematic'
           }
         ];
       }

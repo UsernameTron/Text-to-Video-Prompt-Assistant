@@ -22,7 +22,7 @@ export class PromptEnhancer {
       this.enhancementError = null;
       
       if (!this.resourceLoader.isLoaded) {
-        throw new Error("Resources not loaded yet. Please wait or refresh the page.");
+        throw new Error('Resources not loaded yet. Please wait or refresh the page.');
       }
       
       if (!categories || categories.length === 0) {
@@ -70,7 +70,7 @@ export class PromptEnhancer {
 
       // Validate input
       if (!basicPrompt || typeof basicPrompt !== 'string') {
-        throw new Error("Basic prompt must be a non-empty string");
+        throw new Error('Basic prompt must be a non-empty string');
       }
       
       // Start with the basic prompt
@@ -148,7 +148,7 @@ export class PromptEnhancer {
       this.enhancementError = null;
       
       if (!stylePresets[styleName]) {
-        console.warn(`Style preset "${styleName}" not found, using default`);
+        console.warn(`Style preset '${styleName}' not found, using default`);
         styleName = 'cinematic';
       }
       
@@ -173,7 +173,7 @@ export class PromptEnhancer {
       this.enhancementError = null;
       
       if (!this.resourceLoader.isLoaded) {
-        throw new Error("Resources not loaded yet. Please wait or refresh the page.");
+        throw new Error('Resources not loaded yet. Please wait or refresh the page.');
       }
       
       let categories;
