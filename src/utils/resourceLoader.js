@@ -30,7 +30,7 @@ export class ResourceLoader {
       frame_rate: ['24fps', '30fps', '60fps', '120fps'],
       aspect_ratios: ['16:9', '2.35:1', '1:1', '9:16', '4:3']
     }
-  }
+  };
 
   /**
    * Load all resources from the public directory

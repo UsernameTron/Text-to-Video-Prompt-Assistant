@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Header from '../components/Header';
 import PromptInput from '../components/PromptInput';
-import CategorySelector from '../components/CategorySelector';
-import ModifierSelector from '../components/ModifierSelector';
 import EnhancedPrompt from '../components/EnhancedPrompt';
 import StylePresets from '../components/StylePresets';
+import FilmEffectsSelector from '../components/FilmEffectsSelector';
 import resourceLoader from '../utils/resourceLoader';
 import promptEnhancer from '../utils/promptEnhancer';
+import { generateEnhancedPrompt } from '../utils/filmEffects';
 
 /**
  * Enhancer page component for enhancing prompts
@@ -18,10 +18,9 @@ const EnhancerPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingError, setLoadingError] = useState(null);
   const [basicPrompt, setBasicPrompt] = useState('');
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [suggestions, setSuggestions] = useState({});
-  const [selectedModifiers, setSelectedModifiers] = useState({});
+  const [selectedEffects, setSelectedEffects] = useState([]);
   const [enhancedPrompt, setEnhancedPrompt] = useState('');
+  // eslint-disable-next-line no-unused-vars
   const [allCategories, setAllCategories] = useState([]);
 
   // Load resources on component mount
@@ -91,61 +90,20 @@ const EnhancerPage = () => {
     setBasicPrompt(prompt);
     
     try {
-      const newSuggestions = promptEnhancer.suggestEnhancements(prompt, selectedCategories);
-      setSuggestions(newSuggestions);
-      
-      // Clear previous modifiers
-      setSelectedModifiers({});
-      
-      // Generate a default enhanced prompt
-      updateEnhancedPrompt(prompt, {});
-      
-      // Check for errors
-      const enhancementError = promptEnhancer.getEnhancementError();
-      if (enhancementError) {
-        console.warn('Enhancement warning:', enhancementError);
-      }
+      // Update the enhanced prompt with current effects
+      updateEnhancedPrompt(prompt, selectedEffects);
     } catch (error) {
       console.error('Error handling prompt submission:', error);
     }
   };
 
   /**
-   * Handle category selection change
-   * @param {string[]} categories - Selected categories
+   * Handle effect selection change
+   * @param {string[]} effects - Selected effect IDs
    */
-  const handleCategoryChange = (categories) => {
-    setSelectedCategories(categories);
-    
-    if (basicPrompt) {
-      try {
-        const newSuggestions = promptEnhancer.suggestEnhancements(basicPrompt, categories);
-        setSuggestions(newSuggestions);
-        
-        // Clear previous modifiers that are no longer in selected categories
-        const updatedModifiers = {};
-        for (const cat in selectedModifiers) {
-          if (categories.includes(cat)) {
-            updatedModifiers[cat] = selectedModifiers[cat];
-          }
-        }
-        setSelectedModifiers(updatedModifiers);
-        
-        // Update enhanced prompt with the filtered modifiers
-        updateEnhancedPrompt(basicPrompt, updatedModifiers);
-      } catch (error) {
-        console.error('Error handling category change:', error);
-      }
-    }
-  };
-
-  /**
-   * Handle modifier selection change
-   * @param {Object} modifiers - Selected modifiers by category
-   */
-  const handleModifiersChange = (modifiers) => {
-    setSelectedModifiers(modifiers);
-    updateEnhancedPrompt(basicPrompt, modifiers);
+  const handleEffectsChange = (effects) => {
+    setSelectedEffects(effects);
+    updateEnhancedPrompt(basicPrompt, effects);
   };
 
   /**
@@ -162,13 +120,17 @@ const EnhancerPage = () => {
   };
 
   /**
-   * Update the enhanced prompt based on basic prompt and modifiers
+   * Update the enhanced prompt based on basic prompt and selected effects
    * @param {string} prompt - Basic prompt
-   * @param {Object} modifiers - Selected modifiers
+   * @param {string[]} effects - Selected effects
    */
-  const updateEnhancedPrompt = (prompt, modifiers) => {
+  const updateEnhancedPrompt = (prompt, effects) => {
     try {
-      const newEnhancedPrompt = promptEnhancer.formatEnhancedPrompt(prompt, modifiers);
+      if (!prompt) {
+        return;
+      }
+      
+      const newEnhancedPrompt = generateEnhancedPrompt(prompt, effects);
       setEnhancedPrompt(newEnhancedPrompt);
     } catch (error) {
       console.error('Error updating enhanced prompt:', error);
@@ -214,21 +176,21 @@ const EnhancerPage = () => {
                   onSubmit={handlePromptSubmit} 
                   initialValue={basicPrompt} 
                 />
-                
-                <CategorySelector 
-                  categories={allCategories} 
-                  selectedCategories={selectedCategories} 
-                  onChange={handleCategoryChange} 
-                />
               </section>
               
               <div className="enhancer-grid">
-                <section className="enhancer-input" aria-labelledby="modifiers-section-heading">
-                  <h2 id="modifiers-section-heading">Select Modifiers</h2>
-                  <ModifierSelector 
-                    suggestions={suggestions} 
-                    onModifiersChange={handleModifiersChange} 
+                <section className="enhancer-input" aria-labelledby="film-effects-section-heading">
+                  <h2 id="film-effects-section-heading">Film Effects</h2>
+                  <FilmEffectsSelector 
+                    selectedEffects={selectedEffects}
+                    onEffectChange={handleEffectsChange}
                   />
+                  
+                  <div className="style-section" aria-labelledby="styles-section-heading">
+                    <h3 id="styles-section-heading">Style Presets</h3>
+                    <p>Apply a cinematic style preset to quickly enhance your prompt</p>
+                    <StylePresets onSelectStyle={handleStyleSelect} />
+                  </div>
                 </section>
                 
                 <section className="enhancer-output" aria-labelledby="output-section-heading">
@@ -236,12 +198,6 @@ const EnhancerPage = () => {
                   <EnhancedPrompt enhancedPrompt={enhancedPrompt} />
                 </section>
               </div>
-              
-              <section className="style-section" aria-labelledby="styles-section-heading">
-                <h2 id="styles-section-heading">Style Presets</h2>
-                <p>Apply a cinematic style preset to quickly enhance your prompt</p>
-                <StylePresets onSelectStyle={handleStyleSelect} />
-              </section>
             </>
           )}
         </div>
@@ -249,10 +205,6 @@ const EnhancerPage = () => {
       
       <footer className="footer">
         <div className="container">
-          <p>
-            Text-to-Video Prompt Optimizer - A tool for enhancing text-to-video generation prompts
-            with cinematic elements.
-          </p>
           <p>
             &copy; {new Date().getFullYear()} - Text-to-Video Prompt Optimizer
           </p>

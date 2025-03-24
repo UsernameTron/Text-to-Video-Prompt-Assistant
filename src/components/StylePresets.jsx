@@ -1,5 +1,5 @@
 import React from 'react';
-import stylePresets from '../utils/stylePresets';
+import { STYLE_PRESETS } from '../utils/filmEffects';
 
 /**
  * StylePresets component for quickly applying predefined style presets
@@ -9,7 +9,7 @@ import stylePresets from '../utils/stylePresets';
  * @returns {React.ReactElement} The style presets component
  */
 const StylePresets = ({ onSelectStyle }) => {
-  const styles = Object.keys(stylePresets);
+  const presets = Object.keys(STYLE_PRESETS);
 
   return (
     <div className="style-presets">
@@ -20,14 +20,15 @@ const StylePresets = ({ onSelectStyle }) => {
         role="group" 
         aria-labelledby="style-presets-heading"
       >
-        {styles.map(style => (
+        {presets.map(presetId => (
           <button
-            key={style}
-            onClick={() => onSelectStyle(style)}
+            key={presetId}
+            onClick={() => onSelectStyle(presetId)}
             className="btn btn-style"
-            aria-label={`Apply ${style} style`}
+            aria-label={`Apply ${STYLE_PRESETS[presetId].name} style`}
+            title={STYLE_PRESETS[presetId].description}
           >
-            {style.charAt(0).toUpperCase() + style.slice(1)}
+            {STYLE_PRESETS[presetId].name}
           </button>
         ))}
       </div>

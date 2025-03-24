@@ -1,5 +1,7 @@
 import resourceLoader from './resourceLoader';
-import stylePresets from './stylePresets';
+import { STYLE_PRESETS, applyStylePreset } from './filmEffects';
+// eslint-disable-next-line no-unused-vars
+import { generateEnhancedPrompt } from './filmEffects';
 
 /**
  * PromptEnhancer class for enhancing text prompts with cinematic elements
@@ -147,13 +149,12 @@ export class PromptEnhancer {
       // Reset any previous errors
       this.enhancementError = null;
       
-      if (!stylePresets[styleName]) {
+      if (!STYLE_PRESETS[styleName]) {
         console.warn(`Style preset '${styleName}' not found, using default`);
         styleName = 'cinematic';
       }
       
-      const style = stylePresets[styleName];
-      return this.formatEnhancedPrompt(basicPrompt, style);
+      return applyStylePreset(basicPrompt, styleName);
     } catch (error) {
       console.error('Error applying style preset:', error);
       this.enhancementError = error.message;
