@@ -1,19 +1,19 @@
 :root {
-  /* Color palette */
-  --primary-color: #3a86ff;
-  --primary-light: #61a0ff;
-  --primary-dark: #2662c9;
+  /* Color palette - Dark Theme */
+  --primary-color: #4f7fff;
+  --primary-light: #7a9bff;
+  --primary-dark: #3562e0;
   --secondary-color: #ff9e00;
   --secondary-light: #ffb84d;
   --secondary-dark: #cc7e00;
-  --background-color: #f8f9fa;
-  --surface-color: #ffffff;
-  --text-primary: #212529;
-  --text-secondary: #6c757d;
+  --background-color: #121212;
+  --surface-color: #1e1e1e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #a0a0a0;
   --text-light: #f8f9fa;
-  --border-color: #dee2e6;
+  --border-color: #333333;
   --success-color: #28a745;
-  --error-color: #dc3545;
+  --error-color: #e74c3c;
   
   /* Typography */
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -33,9 +33,9 @@
   --border-radius-lg: 12px;
   
   /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3), 0 4px 6px rgba(0, 0, 0, 0.2);
   
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -131,12 +131,13 @@ main {
 
 /* Header */
 .header {
-  background-color: var(--surface-color);
-  box-shadow: var(--shadow-sm);
+  background-color: #0a0a0a;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   padding: var(--spacing-md) 0;
   position: sticky;
   top: 0;
   z-index: 100;
+  border-bottom: 1px solid #333;
 }
 
 .header .container {
@@ -208,19 +209,20 @@ main {
 
 /* Error messages */
 .error-message {
-  background-color: #fdecea;
+  background-color: rgba(231, 76, 60, 0.1);
   border-left: 3px solid var(--error-color);
   padding: var(--spacing-sm) var(--spacing-md);
   margin-top: var(--spacing-sm);
-  color: #842029;
+  color: #ff8b82;
 }
 
 /* Footer */
 .footer {
-  background-color: var(--text-primary);
+  background-color: #0a0a0a;
   color: var(--text-light);
   padding: var(--spacing-xl) 0;
   margin-top: auto;
+  border-top: 1px solid var(--border-color);
 }
 
 .footer p {
@@ -237,9 +239,9 @@ main {
 }
 
 .btn-style {
-  background-color: var(--surface-color);
+  background-color: #262626;
   border: 1px solid var(--primary-color);
-  color: var(--primary-color);
+  color: var(--primary-light);
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--border-radius-sm);
   font-weight: 500;
@@ -248,8 +250,9 @@ main {
 }
 
 .btn-style:hover {
-  background-color: var(--primary-light);
+  background-color: var(--primary-color);
   color: var(--text-light);
+  box-shadow: 0 0 10px rgba(79, 127, 255, 0.3);
 }
 
 /* Enhancer grid layout */
@@ -287,7 +290,7 @@ main {
   padding: var(--spacing-sm);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius-sm);
-  background-color: var(--surface-color);
+  background-color: #262626;
   color: var(--text-primary);
   font-family: var(--font-family);
   font-size: 1rem;
@@ -296,6 +299,7 @@ main {
 
 .form-select:focus {
   border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(79, 127, 255, 0.2);
   outline: none;
 }
 
@@ -303,35 +307,39 @@ main {
 .enhancer-section {
   margin-bottom: var(--spacing-lg);
   padding: var(--spacing-md);
-  background-color: var(--surface-color);
+  background-color: #1a1a1a;
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-sm);
+  border: 1px solid #2c2c2c;
 }
 
 .enhancer-input, 
 .enhancer-output {
-  background-color: var(--surface-color);
+  background-color: #1a1a1a;
   padding: var(--spacing-md);
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-sm);
+  border: 1px solid #2c2c2c;
 }
 
 .style-section {
   margin-top: var(--spacing-lg);
   padding: var(--spacing-md);
-  background-color: var(--surface-color);
+  background-color: #1a1a1a;
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-sm);
+  border: 1px solid #2c2c2c;
 }
 
 /* Enhanced prompt display */
 .enhanced-prompt {
   margin: var(--spacing-md) 0;
   padding: var(--spacing-md);
-  background-color: rgba(58, 134, 255, 0.05);
+  background-color: rgba(79, 127, 255, 0.1);
   border: 1px solid var(--primary-light);
   border-radius: var(--border-radius-md);
   position: relative;
+  color: var(--text-primary);
 }
 
 .copy-button {
@@ -390,7 +398,7 @@ main {
 
 .category-tab {
   padding: var(--spacing-xs) var(--spacing-sm);
-  background-color: var(--surface-color);
+  background-color: #262626;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius-sm);
   color: var(--text-primary);
@@ -404,11 +412,13 @@ main {
   background-color: var(--primary-color);
   color: var(--text-light);
   border-color: var(--primary-color);
+  box-shadow: 0 0 10px rgba(79, 127, 255, 0.3);
 }
 
 .category-tab:hover:not(.active) {
-  background-color: var(--primary-light);
+  background-color: #333333;
   color: var(--text-light);
+  border-color: var(--primary-light);
 }
 
 .effects-grid {
@@ -420,7 +430,7 @@ main {
 
 .effect-item {
   padding: var(--spacing-sm);
-  background-color: var(--surface-color);
+  background-color: #262626;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius-sm);
   cursor: pointer;
@@ -430,10 +440,11 @@ main {
 .effect-item:hover {
   border-color: var(--primary-light);
   box-shadow: var(--shadow-sm);
+  background-color: #2a2a2a;
 }
 
 .effect-item.selected {
-  background-color: rgba(58, 134, 255, 0.05);
+  background-color: rgba(79, 127, 255, 0.15);
   border-color: var(--primary-color);
 }
 
@@ -449,9 +460,10 @@ main {
 
 .selected-effects-summary {
   padding: var(--spacing-sm);
-  border: 1px solid var(--border-color);
+  border: 1px solid #333;
   border-radius: var(--border-radius-sm);
   margin-bottom: var(--spacing-md);
+  background-color: #1a1a1a;
 }
 
 .selected-effects-summary h4 {
