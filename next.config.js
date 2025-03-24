@@ -19,12 +19,6 @@ const nextConfig = {
     NEXT_PUBLIC_APP_VERSION: '1.0.0',
   },
   
-  // Enable experimental features if needed
-  experimental: {
-    // Enable app directory features if you want to migrate later
-    appDir: false,
-  },
-  
   // Custom headers for better security
   async headers() {
     return [

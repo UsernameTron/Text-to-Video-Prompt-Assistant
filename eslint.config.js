@@ -1,24 +1,45 @@
-import js from '@eslint/js';
-import globals from 'globals';
+const globals = require('globals');
+const js = require('@eslint/js');
+const reactPlugin = require('eslint-plugin-react');
+const reactHooksPlugin = require('eslint-plugin-react-hooks');
+const jsxA11yPlugin = require('eslint-plugin-jsx-a11y');
 
-export default [
-  js.configs.recommended,
+module.exports = [
   {
+    files: ['**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.es2021
+        ...globals.es2021,
+        ...globals.jest,
       },
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true
-        }
-      }
     },
-    files: ['**/*.js', '**/*.jsx'],
+    plugins: {
+      react: reactPlugin,
+      'react-hooks': reactHooksPlugin,
+      'jsx-a11y': jsxA11yPlugin,
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      ...reactPlugin.configs.recommended.rules,
+      ...reactHooksPlugin.configs.recommended.rules,
+      ...jsxA11yPlugin.configs.recommended.rules,
+      'quotes': ['error', 'single'],
+      'semi': ['error', 'always'],
+      'curly': ['error', 'all'],
+      'react/prop-types': 'off',
+      'react/react-in-jsx-scope': 'off',
+      'no-unused-vars': ['warn', { 'argsIgnorePattern': '^_', 'varsIgnorePattern': '^_' }],
+      'jsx-a11y/no-noninteractive-tabindex': 'off'
+    },
     ignores: [
       'node_modules/**',
       '.next/**',
@@ -36,14 +57,10 @@ export default [
       'netlify-project.txt',
       'resource-files.json'
     ],
-    rules: {
-      'quotes': ['error', 'single'],
-      'semi': ['error', 'always'],
-      'curly': ['error', 'all'],
-      'no-unused-vars': ['warn', { 'argsIgnorePattern': '^_', 'varsIgnorePattern': '^_' }],
-      'prefer-const': 'error',
-      'no-var': 'error',
-      'eqeqeq': ['error', 'always']
-    }
-  }
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
+  },
 ];
