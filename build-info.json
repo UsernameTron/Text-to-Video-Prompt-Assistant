@@ -1,0 +1,17 @@
+{
+  "buildDate": "2025-03-24",
+  "nodeVersion": "18",
+  "requiredDependencies": [
+    "next@13.4.0",
+    "react@18.2.0",
+    "react-dom@18.2.0"
+  ],
+  "environmentVariables": {
+    "NODE_VERSION": "18"
+  },
+  "buildCommands": [
+    "npm install",
+    "npx eslint --fix .",
+    "npm run build"
+  ]
+}

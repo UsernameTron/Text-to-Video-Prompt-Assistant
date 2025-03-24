@@ -1,4 +1,8 @@
-/** @type {import('next').NextConfig} */
+/**
+ * @type {import('next').NextConfig}
+ * Next.js configuration 
+ * Requires Node.js 18+
+ */
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,

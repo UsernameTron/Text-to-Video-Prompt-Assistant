@@ -23,7 +23,7 @@ A web application that enhances basic text prompts with cinematic elements for b
 
 ### Prerequisites
 
-- Node.js 16.x or higher
+- Node.js 18.x or higher (required for Next.js 13.4+)
 - npm or yarn
 
 ### Installation
