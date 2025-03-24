@@ -1,0 +1,22 @@
+[
+  {
+    "basic": "A person walking through a forest",
+    "enhanced": "A person walking through a forest, wide shot, natural lighting, golden hour, 4K resolution, shallow depth of field, cinematic"
+  },
+  {
+    "basic": "City skyline at night",
+    "enhanced": "City skyline at night, aerial shot, low-key lighting, blue color grading, rule of thirds composition, 24fps, cinematic"
+  },
+  {
+    "basic": "A car driving down a desert road",
+    "enhanced": "A car driving down a desert road, tracking shot, warm color grading, lens flare, dust particles, anamorphic, 2.35:1 aspect ratio"
+  },
+  {
+    "basic": "A person looking out a window",
+    "enhanced": "A person looking out a window, medium close-up, Rembrandt lighting, dramatic shadows, shallow depth of field, melancholic tone, film grain"
+  },
+  {
+    "basic": "Waves crashing on a beach",
+    "enhanced": "Waves crashing on a beach, slow motion, golden hour lighting, wide angle lens, vivid color grading, 120fps, nature documentary style"
+  }
+]

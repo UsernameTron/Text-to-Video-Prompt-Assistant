@@ -3,11 +3,12 @@ import React from 'react';
 import Head from 'next/head';
 import '../styles/globals.css';
 
-function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Enhance your text-to-video prompts with cinematic elements" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -16,8 +17,6 @@ function MyApp({ Component, pageProps }) {
     </>
   );
 }
-
-export default MyApp;
 
 // src/pages/_document.js
 import Document, { Html, Head, Main, NextScript } from 'next/document';
@@ -64,18 +63,25 @@ module.exports = nextConfig;
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
-    "next": "^12.3.0",
+    "next": "^13.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-select": "^5.4.0",
+    "react-select": "^5.7.0",
     "react-syntax-highlighter": "^15.5.0"
   },
   "devDependencies": {
-    "eslint": "^8.23.1",
-    "eslint-config-next": "^12.3.0"
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
+    "eslint": "^8.38.0",
+    "eslint-config-next": "^13.4.0",
+    "jest": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0"
   }
 }
 

@@ -7,31 +7,31 @@ const Header = () => {
     <header className="header">
       <div className="container">
         <h1 className="site-title">Text-to-Video Prompt Optimizer</h1>
-        <nav className="main-nav">
+        <nav className="main-nav" aria-label="Main navigation">
           <ul>
             <li>
-              <Link href="/">
-                <a>Home</a>
+              <Link href="/" className="nav-link" aria-label="Home">
+                Home
               </Link>
             </li>
             <li>
-              <Link href="/enhancer">
-                <a>Prompt Enhancer</a>
+              <Link href="/enhancer" className="nav-link" aria-label="Prompt Enhancer">
+                Prompt Enhancer
               </Link>
             </li>
             <li>
-              <Link href="/examples">
-                <a>Examples</a>
+              <Link href="/examples" className="nav-link" aria-label="Examples">
+                Examples
               </Link>
             </li>
             <li>
-              <Link href="/docs">
-                <a>Documentation</a>
+              <Link href="/docs" className="nav-link" aria-label="Documentation">
+                Documentation
               </Link>
             </li>
             <li>
-              <Link href="/about">
-                <a>About</a>
+              <Link href="/about" className="nav-link" aria-label="About">
+                About
               </Link>
             </li>
           </ul>
@@ -202,18 +202,30 @@ import React, { useState } from 'react';
 
 const EnhancedPrompt = ({ enhancedPrompt }) => {
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState(false);
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(enhancedPrompt).then(() => {
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(enhancedPrompt);
       setCopied(true);
+      setCopyError(false);
       setTimeout(() => setCopied(false), 2000);
-    });
+    } catch (error) {
+      console.error('Failed to copy:', error);
+      setCopyError(true);
+      setTimeout(() => setCopyError(false), 2000);
+    }
   };
 
   return (
     <div className="enhanced-prompt">
-      <h3>Enhanced Prompt</h3>
-      <div className="prompt-display">
+      <h3 id="enhanced-prompt-heading">Enhanced Prompt</h3>
+      <div 
+        className="prompt-display" 
+        aria-labelledby="enhanced-prompt-heading"
+        tabIndex={0}
+        role="region"
+      >
         <p>{enhancedPrompt || 'Your enhanced prompt will appear here'}</p>
       </div>
       {enhancedPrompt && (
@@ -221,9 +233,16 @@ const EnhancedPrompt = ({ enhancedPrompt }) => {
           onClick={copyToClipboard} 
           className="btn btn-secondary"
           disabled={copied}
+          aria-label="Copy enhanced prompt to clipboard"
+          aria-live="polite"
         >
-          {copied ? 'Copied!' : 'Copy to Clipboard'}
+          {copied ? 'Copied!' : copyError ? 'Failed to copy' : 'Copy to Clipboard'}
         </button>
+      )}
+      {copyError && (
+        <div className="error-message" role="alert">
+          <p>Unable to copy to clipboard. Please select the text manually.</p>
+        </div>
       )}
     </div>
   );

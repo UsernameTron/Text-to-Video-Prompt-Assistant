@@ -175,9 +175,20 @@ main {
 .main-nav a:hover {
   background-color: var(--primary-light);
   color: var(--text-light);
-  border-radius: 50%;
-  margin: 0 auto var(--spacing-sm);
-  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Footer */
+.footer {
+  background-color: var(--text-primary);
+  color: var(--text-light);
+  padding: var(--spacing-xl) 0;
+  margin-top: auto;
+}
+
+.footer p {
+  margin-bottom: var(--spacing-sm);
+  opacity: 0.8;
 }
 
 /* Enhancer page */
@@ -333,21 +344,6 @@ main {
     flex-direction: column;
     gap: var(--spacing-sm);
   }
-});
-  text-decoration: none;
-}
-
-/* Footer */
-.footer {
-  background-color: var(--text-primary);
-  color: var(--text-light);
-  padding: var(--spacing-xl) 0;
-  margin-top: auto;
-}
-
-.footer p {
-  margin-bottom: var(--spacing-sm);
-  opacity: 0.8;
 }
 
 /* Buttons */
@@ -564,4 +560,8 @@ label {
   width: 40px;
   height: 40px;
   background-color: var(--primary-color);
-  color: var(--text-light
+  color: var(--text-light);
+  border-radius: 50%;
+  margin: 0 auto var(--spacing-sm);
+  font-weight: bold;
+}
