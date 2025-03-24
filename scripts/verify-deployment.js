@@ -25,6 +25,12 @@ const requiredFiles = [
   'src/utils/resourceLoader.js',
   'src/utils/promptEnhancer.js',
   'src/utils/stylePresets.js',
+  'src/components/ModifierSelector.jsx',
+  'src/components/StylePresets.jsx',
+  'src/components/EnhancedPrompt.jsx',
+  'src/components/CategorySelector.jsx',
+  'src/components/Header.jsx',
+  'src/components/PromptInput.jsx',
   'next.config.js',
   'package.json',
   'netlify.toml'
