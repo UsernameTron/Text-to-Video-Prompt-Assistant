@@ -8,6 +8,29 @@ export class ResourceLoader {
     this.isLoaded = false;
     this.loadError = null;
   }
+  
+  // Add these fallback category data in case resources fail to load
+  fallbackResources = {
+    film_effects: {
+      shot_types: ['wide shot', 'close-up', 'medium shot', 'aerial shot', 'tracking shot', 'dolly zoom'],
+      camera_movements: ['static', 'panning', 'tilting', 'tracking', 'dolly', 'crane', 'steady', 'handheld'],
+      transitions: ['cut', 'fade', 'dissolve', 'wipe', 'iris', 'zoom']
+    },
+    cinematic_techniques: {
+      composition_rules: ['rule of thirds', 'symmetry', 'leading lines', 'framing', 'depth'],
+      lighting: ['natural lighting', 'low-key', 'high-key', 'Rembrandt', 'silhouette', 'dramatic'],
+      color_grading: ['technicolor', 'monochrome', 'sepia', 'vibrant', 'desaturated', 'high contrast']
+    },
+    mood_descriptors: {
+      emotional_tones: ['mysterious', 'joyful', 'melancholic', 'tense', 'peaceful', 'nostalgic'],
+      time_of_day: ['golden hour', 'blue hour', 'night', 'dawn', 'midday', 'dusk']
+    },
+    tech_specs: {
+      resolution: ['4K', '8K', 'HD', 'UHD'],
+      frame_rate: ['24fps', '30fps', '60fps', '120fps'],
+      aspect_ratios: ['16:9', '2.35:1', '1:1', '9:16', '4:3']
+    }
+  }
 
   /**
    * Load all resources from the public directory
@@ -30,40 +53,42 @@ export class ResourceLoader {
         'post_prod_effects'
       ];
 
-      const failedFiles = [];
-      
-      // Load resource files in parallel for better performance
-      const results = await Promise.allSettled(
-        resourceFiles.map(async (file) => {
-          try {
+      // First try loading from the server
+      let loadedFromServer = false;
+      try {
+        const results = await Promise.allSettled(
+          resourceFiles.map(async (file) => {
             const response = await fetch(`/resources/${file}.json`);
             if (!response.ok) {
               throw new Error(`HTTP error ${response.status}`);
             }
             return { file, data: await response.json() };
-          } catch (error) {
-            failedFiles.push(file);
-            console.warn(`Failed to load ${file}.json:`, error.message);
-            return { file, data: {} };
+          })
+        );
+        
+        // Process results
+        results.forEach(result => {
+          if (result.status === 'fulfilled') {
+            this.resources[result.value.file] = result.value.data;
+            loadedFromServer = true;
           }
-        })
-      );
-      
-      // Process results
-      results.forEach(result => {
-        if (result.status === 'fulfilled') {
-          this.resources[result.value.file] = result.value.data;
-        }
-      });
+        });
+      } catch (error) {
+        console.warn('Failed to load resources from server, using fallbacks');
+      }
 
-      // Load example prompts
+      // If server resources failed to load, use fallbacks
+      if (!loadedFromServer || Object.keys(this.resources).length === 0) {
+        this.resources = this.fallbackResources;
+        console.log('Using fallback resources:', this.resources);
+      }
+
+      // Load or generate example prompts
       try {
         const examplesResponse = await fetch('/resources/examples/prompt_examples.json');
         if (examplesResponse.ok) {
           this.examples = await examplesResponse.json();
         } else {
-          console.warn(`Failed to load examples: HTTP error ${examplesResponse.status}`);
-          // Provide fallback examples if the file fails to load
           this.examples = [
             { 
               basic: 'A person walking through a forest', 
@@ -76,8 +101,6 @@ export class ResourceLoader {
           ];
         }
       } catch (error) {
-        console.error('Error loading examples:', error.message);
-        // Provide fallback examples if loading fails
         this.examples = [
           { 
             basic: 'A person walking through a forest', 
@@ -91,19 +114,15 @@ export class ResourceLoader {
       }
 
       this.isLoaded = true;
-      
-      // If some resources failed to load but we have fallbacks, consider it a partial success
-      if (failedFiles.length > 0) {
-        console.warn(`Some resources failed to load: ${failedFiles.join(', ')}. Using fallbacks.`);
-        return true;
-      }
-      
       return true;
     } catch (error) {
       console.error('Critical error loading resources:', error);
       // Create a user-friendly error message
-      this.loadError = 'Failed to load cinematic resources. Please refresh the page or try again later.';
-      return false;
+      this.loadError = 'Failed to load cinematic resources. Using fallback data instead.';
+      // Use fallbacks as last resort
+      this.resources = this.fallbackResources;
+      this.isLoaded = true;
+      return true; // We return true because we have fallbacks
     }
   }
 

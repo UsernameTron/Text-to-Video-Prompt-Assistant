@@ -21,11 +21,24 @@ const formatCategoryName = (category) => {
  * @returns {React.ReactElement} The category selector component
  */
 const CategorySelector = ({ categories, selectedCategories, onChange }) => {
-  // Convert categories to options format for react-select
-  const options = categories.map(category => ({
-    value: category,
-    label: formatCategoryName(category)
-  }));
+  // Check if categories exist and provide defaults if empty
+  if (!categories || categories.length === 0) {
+    console.warn('No categories provided to CategorySelector');
+  }
+
+  // Ensure options is never empty by providing fallbacks
+  const options = categories && categories.length > 0 
+    ? categories.map(category => ({
+        value: category,
+        label: formatCategoryName(category)
+      }))
+    : [
+        { value: 'shot_types', label: 'Shot Types' },
+        { value: 'lighting', label: 'Lighting' },
+        { value: 'color_grading', label: 'Color Grading' },
+        { value: 'camera_movements', label: 'Camera Movements' },
+        { value: 'emotional_tones', label: 'Emotional Tones' }
+      ];
 
   // Convert selected categories to react-select value format
   const value = selectedCategories.map(category => ({
@@ -83,6 +96,13 @@ const CategorySelector = ({ categories, selectedCategories, onChange }) => {
       </p>
     </div>
   );
+};
+
+// Add default props
+CategorySelector.defaultProps = {
+  categories: [],
+  selectedCategories: [],
+  onChange: () => {}
 };
 
 export default CategorySelector;

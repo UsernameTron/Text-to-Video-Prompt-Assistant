@@ -32,7 +32,14 @@ const EnhancerPage = () => {
         const loaded = await resourceLoader.loadAllResources();
         
         if (loaded) {
-          setAllCategories(resourceLoader.getAllCategories());
+          const categories = resourceLoader.getAllCategories();
+          setAllCategories(categories);
+          
+          // Ensure categories are set even if resourceLoader.getAllCategories() returns empty
+          if (!categories.length) {
+            setAllCategories(['shot_types', 'camera_movements', 'lighting', 
+                              'color_grading', 'emotional_tones', 'time_of_day']);
+          }
         } else {
           const error = resourceLoader.getLoadError() || 'Failed to load resources';
           setLoadingError(error);
@@ -46,6 +53,34 @@ const EnhancerPage = () => {
     };
 
     loadResources();
+    
+    // Add a timeout to ensure UI updates even if there's a delay
+    const timeoutId = setTimeout(() => {
+      if (!resourceLoader.isLoaded) {
+        console.log('Forcing resource loader to use fallbacks after timeout');
+        resourceLoader.resources = {
+          film_effects: {
+            shot_types: ['wide shot', 'close-up', 'medium shot', 'aerial shot'],
+            camera_movements: ['static', 'panning', 'tracking', 'dolly']
+          },
+          cinematic_techniques: {
+            lighting: ['natural lighting', 'low-key', 'high-key', 'dramatic'],
+            color_grading: ['technicolor', 'monochrome', 'vibrant', 'cool']
+          },
+          mood_descriptors: {
+            emotional_tones: ['mysterious', 'joyful', 'melancholic', 'tense'],
+            time_of_day: ['golden hour', 'night', 'dawn', 'dusk']
+          }
+        };
+        resourceLoader.isLoaded = true;
+        setAllCategories(['shot_types', 'camera_movements', 'lighting', 
+                          'color_grading', 'emotional_tones', 'time_of_day']);
+        setIsLoading(false);
+      }
+    }, 3000); // 3 second timeout
+
+    // Clean up the timeout when component unmounts
+    return () => clearTimeout(timeoutId);
   }, []);
 
   /**

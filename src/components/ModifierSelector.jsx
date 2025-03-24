@@ -14,11 +14,27 @@ const ModifierSelector = ({ suggestions, onModifiersChange }) => {
   useEffect(() => {
     // Initialize with empty selections
     const initialSelections = {};
-    Object.keys(suggestions).forEach(category => {
+    
+    // If suggestions is empty, set some default values
+    const suggestionsToUse = Object.keys(suggestions).length === 0 
+      ? {
+          shot_types: ['wide shot', 'close-up', 'medium shot'],
+          lighting: ['natural lighting', 'dramatic', 'low-key'],
+          color_grading: ['vibrant', 'monochrome', 'cool tones']
+        } 
+      : suggestions;
+    
+    Object.keys(suggestionsToUse).forEach(category => {
       initialSelections[category] = '';
     });
+    
     setSelectedModifiers(initialSelections);
-  }, [suggestions]);
+    
+    // If suggestions was empty, inform parent about the default values
+    if (Object.keys(suggestions).length === 0) {
+      onModifiersChange(initialSelections);
+    }
+  }, [suggestions, onModifiersChange]);
 
   /**
    * Handle modifier selection change
@@ -34,14 +50,23 @@ const ModifierSelector = ({ suggestions, onModifiersChange }) => {
     onModifiersChange(updatedModifiers);
   };
 
+  // Use fallback suggestions if none are provided
+  const displaySuggestions = Object.keys(suggestions).length === 0 
+    ? {
+        shot_types: ['wide shot', 'close-up', 'medium shot', 'aerial view', 'tracking shot'],
+        lighting: ['natural lighting', 'dramatic', 'low-key', 'high-key', 'Rembrandt'],
+        color_grading: ['vibrant', 'monochrome', 'cool tones', 'warm tones', 'high contrast']
+      } 
+    : suggestions;
+
   return (
     <div className="modifier-selector">
       <h3 id="modifiers-heading">Select Modifiers</h3>
-      {Object.keys(suggestions).length === 0 ? (
+      {Object.keys(displaySuggestions).length === 0 ? (
         <p>No suggestions available. Please select categories first.</p>
       ) : (
         <div className="modifiers-grid" aria-labelledby="modifiers-heading" role="group">
-          {Object.entries(suggestions).map(([category, options]) => (
+          {Object.entries(displaySuggestions).map(([category, options]) => (
             <div key={category} className="modifier-group">
               <label htmlFor={`modifier-${category}`}>
                 {category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
@@ -66,6 +91,12 @@ const ModifierSelector = ({ suggestions, onModifiersChange }) => {
       )}
     </div>
   );
+};
+
+// Add default props
+ModifierSelector.defaultProps = {
+  suggestions: {},
+  onModifiersChange: () => {}
 };
 
 export default ModifierSelector;
